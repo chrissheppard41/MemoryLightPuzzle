@@ -1,0 +1,22 @@
+li {
+    float: left;
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+li.red {
+    background-color: red;
+}
+li.blue {
+    background-color: blue;
+}
+li.green {
+    background-color: green;
+}
+li.purple {
+    background-color: purple;
+}
+li.cyan {
+    background-color: cyan;
+}
