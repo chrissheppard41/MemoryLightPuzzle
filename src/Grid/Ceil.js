@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import * as CeilActions from '../actions/CeilActions';
 import './Ceil.css';
+import * as StateActions from '../actions/StateActions';
+import StateStore from '../stores/StateStore';
 
 class Ceil extends Component {
 
     gridClick(event) {
-        console.log("On click", this);
-        CeilActions.whenClicked();
+        console.log("On click", this.props.id);
+        StateActions.onClick(this.props.id);
+    }
+
+    transitions() {
+
     }
 
     render() {
