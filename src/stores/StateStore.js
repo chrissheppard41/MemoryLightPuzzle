@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import dispatcher from "../dispatcher";
 
 class StateStore extends EventEmitter {

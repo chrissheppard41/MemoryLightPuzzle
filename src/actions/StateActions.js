@@ -1,10 +1,11 @@
 import dispatcher from "../dispatcher";
 
-export function onStart(loops, ceils) {
+export function onStart(loops, ceils, difficulty) {
     dispatcher.dispatch({
         type: "START_ACTION",
         loops: loops,
-        ceils: ceils
+        ceils: ceils,
+        difficulty: difficulty
     });
 }
 

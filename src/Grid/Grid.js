@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as StateActions from '../actions/StateActions';
 import StateStore from '../stores/StateStore';
 import Ceil from './Ceil';
+import Thistest from './Thistest';
 
 class Grid extends Component {
     constructor() {
@@ -11,7 +12,8 @@ class Grid extends Component {
 
         //set the default state
         this.state = {
-            Ceils: StateStore.getCeils()
+            Ceils: StateStore.getCeils(),
+            difficulty: "normal"
         }
     }
 
@@ -36,8 +38,22 @@ class Grid extends Component {
      * Start the game mechanics
      */
     startGame() {
-        StateActions.onStart(5, 5);
+        StateActions.onStart(5, 5, this.state.difficulty);
     }
+
+    /**
+     * Sets the difficulty of the game
+     * @param event
+     */
+    difficulty(event) {
+        this.setState({
+            difficulty: event.target.value
+        });
+
+        event.preventDefault();
+    }
+
+
 
     /**
      * Render this component
@@ -52,6 +68,14 @@ class Grid extends Component {
 
         return (
             <div className="container">
+                <Thistest />
+
+                <label htmlFor="difficult">Difficulty:</label>
+                <select name="difficult" value={this.state.difficulty} onChange={this.difficulty.bind(this)}>
+                    <option value="easy">Easy</option>
+                    <option value="normal">Normal</option>
+                    <option value="difficult">Difficult</option>
+                </select>
                 <button onClick={this.startGame.bind(this)}>Start Game</button>
                 <ul>
                     {items}
