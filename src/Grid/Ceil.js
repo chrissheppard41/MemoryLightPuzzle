@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Ceil.css';
 import * as StateActions from '../actions/StateActions';
 //import StateStore from '../stores/StateStore';
+import TransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 class Ceil extends Component {
 
@@ -11,10 +12,23 @@ class Ceil extends Component {
     }
 
     render() {
+        //const time_out = (this.props.id * 1000);
+/*
+*
+ onClick={this.gridClick.bind(this)}
+ className={this.props.colour}
+* */
         return (
-            <li className={this.props.colour} onClick={this.gridClick.bind(this)}>
-
-            </li>
+            <TransitionGroup
+                transitionName="example"
+                transitionEnterTimeout={500}
+                transitionLeave={false}
+                component="li"
+            >
+                <div>
+                    Hello
+                </div>
+            </TransitionGroup>
         );
     }
 }

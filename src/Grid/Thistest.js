@@ -17,7 +17,7 @@ class Thistest extends Component {
                 transitionAppearTimeout={time_out}
                 transitionEnter={false}
                 transitionLeave={false}
-                className='button-row'>
+                component="div">
                 <span>Fading at Initial Mount :o</span>
             </TransitionGroup>
         );
