@@ -4,6 +4,8 @@ li {
     width: 100px;
     height: 100px;
     margin: 5px;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
 }
 li.red {
     background-color: red;
@@ -19,4 +21,12 @@ li.purple {
 }
 li.cyan {
     background-color: cyan;
+}
+
+li.animate {
+    opacity: .5;
+}
+
+li.ready {
+    opacity: 1;
 }

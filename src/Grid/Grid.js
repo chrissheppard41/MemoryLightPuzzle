@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import * as StateActions from '../actions/StateActions';
 import StateStore from '../stores/StateStore';
 import Ceil from './Ceil';
-import Thistest from './Thistest';
 
 class Grid extends Component {
     constructor() {
         super();
         //bind the get ceils state to this component so that when called it understands to execute the function
-        this.getCeils = this.getCeils.bind(this);
+        this.setCeils = this.setCeils.bind(this);
 
         //set the default state
         this.state = {
@@ -22,13 +21,13 @@ class Grid extends Component {
      * say on ceil update, update the DOM with the new state
      */
     componentWillMount() {
-        StateStore.on("change", this.getCeils);
+        StateStore.on("ceils_updated", this.setCeils);
     }
 
     /**
      * Get the updated Ceils data
      */
-    getCeils() {
+    setCeils() {
         this.setState({
             Ceils: StateStore.getCeils()
         });
@@ -63,13 +62,11 @@ class Grid extends Component {
         const { Ceils } = this.state;
 
         var items = Ceils.map((item, index) =>
-            <Ceil key={item.id} colour={item.colour} id={item.id} />
+            <Ceil key={item.id} colour={item.colour} id={item.id} sequence={item.sequence} state={item.state} />
         );
 
         return (
             <div className="container">
-                <Thistest />
-
                 <label htmlFor="difficult">Difficulty:</label>
                 <select name="difficult" value={this.state.difficulty} onChange={this.difficulty.bind(this)}>
                     <option value="easy">Easy</option>

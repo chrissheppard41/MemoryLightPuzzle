@@ -6,6 +6,7 @@ class StateStore extends EventEmitter {
         super();
 
         this.ceils = [];
+        this.animation_count = 0;
         this.sequence = [];
         this.user_sequence = [];
     }
@@ -16,6 +17,14 @@ class StateStore extends EventEmitter {
     getCeils() {
         return this.ceils;
     }
+
+    animationComplete() {
+        return this.animation_count >= this.sequence.length;
+    }
+    setAnimationCount() {
+        this.animation_count++;
+    }
+
     setCeils(ceils) {
         //if the ceils passed in is somehow greater than 9, set to 9
         if(ceils > 9) ceils = 9;
@@ -24,7 +33,7 @@ class StateStore extends EventEmitter {
         this.ceils = [];
         for (var i = 0, j = ceils; i < j; i++) {
             if(i >= ceils) break;
-            this.ceils.push({id: i, colour: colours[i]});
+            this.ceils.push({id: i, colour: colours[i], sequence: this.sequence[i], state: "preparing"});
         }
     }
 
@@ -38,16 +47,8 @@ class StateStore extends EventEmitter {
 
         console.log("--->", this.getCeils());
 
-        this.runSequence();
-
         //when you hit this function, tell the core that you are making a change
-        this.emit("change");
-    }
-
-    runSequence() {
-        this.sequence.forEach((item, index) => {
-            console.log(item);
-        })
+        this.emit("ceils_updated");
     }
 
     recordClick(ceil) {
