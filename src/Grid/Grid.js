@@ -9,10 +9,14 @@ class Grid extends Component {
         //bind the get ceils state to this component so that when called it understands to execute the function
         this.setCeils = this.setCeils.bind(this);
 
+        //bind the get ceils state to this component so that when called it understands to execute the function
+        this.clearCeils = this.clearCeils.bind(this);
+
         //set the default state
         this.state = {
             Ceils: StateStore.getCeils(),
-            difficulty: "normal"
+            difficulty: "normal",
+            difficulty_seconds: StateStore.getDifficult()
         }
     }
 
@@ -22,6 +26,7 @@ class Grid extends Component {
      */
     componentWillMount() {
         StateStore.on("ceils_updated", this.setCeils);
+        StateStore.on("ceils_clear", this.clearCeils);
     }
 
     /**
@@ -30,6 +35,13 @@ class Grid extends Component {
     setCeils() {
         this.setState({
             Ceils: StateStore.getCeils()
+        });
+    }
+
+
+    clearCeils() {
+        this.setState({
+            Ceils: []
         });
     }
 
@@ -46,7 +58,8 @@ class Grid extends Component {
      */
     difficulty(event) {
         this.setState({
-            difficulty: event.target.value
+            difficulty: event.target.value,
+            difficulty_seconds: StateStore.setDifficulty(event.target.value)
         });
 
         event.preventDefault();
@@ -71,10 +84,10 @@ class Grid extends Component {
                 <select name="difficult" value={this.state.difficulty} onChange={this.difficulty.bind(this)}>
                     <option value="easy">Easy</option>
                     <option value="normal">Normal</option>
-                    <option value="difficult">Difficult</option>
+                    <option value="hard">Hard</option>
                 </select>
                 <button onClick={this.startGame.bind(this)}>Start Game</button>
-                <ul>
+                <ul className={this.state.difficulty}>
                     {items}
                 </ul>
             </div>

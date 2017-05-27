@@ -9,6 +9,35 @@ class StateStore extends EventEmitter {
         this.animation_count = 0;
         this.sequence = [];
         this.user_sequence = [];
+        this.difficulty = 1000;
+    }
+
+    /**
+     * reset the game
+     */
+    reset() {
+        this.ceils = [];
+        this.animation_count = 0;
+        this.sequence = [];
+        this.user_sequence = [];
+        this.difficulty = 1000;
+    }
+
+    setDifficulty(difficulty) {
+        switch(difficulty) {
+            case "easy":
+                this.difficulty = 1300;
+                break;
+            case "hard":
+                this.difficulty = 700;
+                break;
+            default:
+                this.difficulty = 1000;
+                break;
+        }
+    }
+    getDifficult() {
+        return this.difficulty;
     }
 
     setLoops(loop) {
@@ -40,7 +69,7 @@ class StateStore extends EventEmitter {
     startGame(loops, ceils) {
         console.log("Starting the game", "loops", loops, "ceils", ceils);
 
-        this.sequence = [3,1,4,0,2];
+        this.sequence = [0,1,2,3,4];
 
         this.setLoops(loops);
         this.setCeils(ceils);
@@ -67,6 +96,26 @@ class StateStore extends EventEmitter {
         var sequences_match = this.sequence.every((v,i)=> v === this.user_sequence[i]);
 
         console.log("Sequence matches", sequences_match);
+
+        //reset the click count by user and the animation count
+        this.animation_count = 0;
+        this.user_sequence = [];
+
+        if(sequences_match) {
+            //@todo display a success message
+            console.log("Done");
+
+            this.ceils = [];
+            this.sequence = [];
+
+        } else {
+            //@todo display a failed message
+            console.log("Failed but done");
+
+            //reset animation by clearing the ceils, then adding them back in
+            //this.emit("ceils_clear");
+            //this.emit("ceils_updated");
+        }
     }
 
     handleStateActions(action) {

@@ -30,7 +30,6 @@ class Ceil extends Component {
     gridClick(event) {
         console.log("On click", this.props.id);
         if(StateStore.animationComplete()) {
-            console.log("Animation complete");
             StateActions.onClick(this.props.id);
             this.animate();
         } else {
@@ -42,10 +41,9 @@ class Ceil extends Component {
      * This is the startAnimation method fires when the component is first mounted, it sets the time in which to execute
      * using the sequence. All this function does, is changes the class on each of the ceils. CSS transitions will take
      * care of the rest
-     * @todo 1s could be more dynamic, on a harder game this should be quicker, css classes should refect this number
      */
     startAnimation() {
-        const execute = (this.props.sequence * 1000) + 500;
+        const execute = (this.props.sequence * StateStore.getDifficult()) + 500;
         setTimeout(() => this.animate(), execute);
     }
 
@@ -53,13 +51,15 @@ class Ceil extends Component {
      * The animation class sets the initial state when executed to animate, after X amount of milliseconds change the
      * state to ready, ready means that the ceil can be clicked
      * @todo we should not allow the user to click too soon before the animation cycle is completed. Set something to stop the user clicking too soon
-     * @todo StateStore.setAnimationCount once the animation is complete this should not call again, make sure it doesn't
      */
     animate() {
         this.setState({state: "animate"});
         setTimeout(() => {
             this.setState({state: "ready"});
-            StateStore.setAnimationCount();
+            //no need to increment the count when clicking
+            if(!StateStore.animationComplete()) {
+                StateStore.setAnimationCount();
+            }
         }, 1000);
     }
 

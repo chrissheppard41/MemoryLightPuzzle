@@ -5,7 +5,6 @@ li {
     height: 100px;
     margin: 5px;
     opacity: 1;
-    transition: opacity 1s ease-in-out;
 }
 li.red {
     background-color: red;
@@ -21,6 +20,16 @@ li.purple {
 }
 li.cyan {
     background-color: cyan;
+}
+
+ul.easy li {
+    transition: opacity 1.3s ease-in-out;
+}
+ul.normal li {
+    transition: opacity 1s ease-in-out;
+}
+ul.hard li {
+    transition: opacity 0.7s ease-in-out;
 }
 
 li.animate {
