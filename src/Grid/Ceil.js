@@ -50,7 +50,6 @@ class Ceil extends Component {
     /**
      * The animation class sets the initial state when executed to animate, after X amount of milliseconds change the
      * state to ready, ready means that the ceil can be clicked
-     * @todo we should not allow the user to click too soon before the animation cycle is completed. Set something to stop the user clicking too soon
      */
     animate() {
         this.setState({state: "animate"});
@@ -72,7 +71,7 @@ class Ceil extends Component {
 
         return (
             <li onClick={this.gridClick.bind(this)} className={className}>
-                Hello
+                Ceil
             </li>
         );
     }

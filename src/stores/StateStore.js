@@ -5,11 +5,14 @@ class StateStore extends EventEmitter {
     constructor() {
         super();
 
-        this.ceils = [];
-        this.animation_count = 0;
-        this.sequence = [];
-        this.user_sequence = [];
-        this.difficulty = 1000;
+        this.game_can_be_in_these_states = [
+            "Start",
+            "Waiting",
+            "End_success",
+            "End_failure"
+        ]
+
+        this.reset();
     }
 
     /**
@@ -21,6 +24,14 @@ class StateStore extends EventEmitter {
         this.sequence = [];
         this.user_sequence = [];
         this.difficulty = 1000;
+        this.gameState = this.game_can_be_in_these_states[0];
+    }
+
+    getGameState() {
+        return this.gameState;
+    }
+    setGameState(state) {
+        this.gameState = this.game_can_be_in_these_states[state];
     }
 
     setDifficulty(difficulty) {

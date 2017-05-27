@@ -80,16 +80,20 @@ class Grid extends Component {
 
         return (
             <div className="container">
-                <label htmlFor="difficult">Difficulty:</label>
-                <select name="difficult" value={this.state.difficulty} onChange={this.difficulty.bind(this)}>
-                    <option value="easy">Easy</option>
-                    <option value="normal">Normal</option>
-                    <option value="hard">Hard</option>
-                </select>
-                <button onClick={this.startGame.bind(this)}>Start Game</button>
+                <div className="intro">
+                    <label htmlFor="difficult">Difficulty:</label>
+                    <select name="difficult" value={this.state.difficulty} onChange={this.difficulty.bind(this)}>
+                        <option value="easy">Easy</option>
+                        <option value="normal">Normal</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <button onClick={this.startGame.bind(this)}>Start Game</button>
+                </div>
                 <ul className={this.state.difficulty}>
                     {items}
                 </ul>
+                <p className="success">You have matched everything correctly</p>
+                <p className="failure">You have matched incorrectly, try again? Yes / No</p>
             </div>
         );
     }
