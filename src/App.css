@@ -27,6 +27,26 @@ ul li {
     background-color: antiquewhite;
 }
 
+.state {
+  transition: opacity 500ms ease-in;
+  clear: both;
+}
+
+.hide {
+  opacity: 0;
+}
+.show {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+
 .example-enter {
   opacity: 1;
 }

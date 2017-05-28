@@ -28,6 +28,7 @@ class Ceil extends Component {
      * @param event
      */
     gridClick(event) {
+        //@todo fix the animation effect
         console.log("On click", this.props.id);
         if(StateStore.animationComplete()) {
             StateActions.onClick(this.props.id);
