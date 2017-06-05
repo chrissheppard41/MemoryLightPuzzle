@@ -8,6 +8,8 @@ class Ceil extends Component {
     constructor(props) {
         super(props);
 
+        this.resetCeil = this.resetCeil.bind(this);
+
         //because we are changing the classes within this component, we set a state for the ceil, which can go between
         //preparing, animate and ready
         this.state = {
@@ -20,6 +22,10 @@ class Ceil extends Component {
      */
     componentDidMount() {
         this.startAnimation();
+    }
+
+    resetCeil() {
+        this.setState({state: "preparing"});
     }
 
     /**

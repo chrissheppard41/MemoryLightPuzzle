@@ -128,6 +128,9 @@ class StateStore extends EventEmitter {
             //this.emit("ceils_clear");
             //this.emit("ceils_updated");
         }
+
+        this.emit("ceils_clear");
+
         //@todo possibly put this into the set game state method
         this.emit("game_state");
     }

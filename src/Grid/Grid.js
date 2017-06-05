@@ -98,7 +98,7 @@ class Grid extends Component {
         );
 
         var intro = this.state.game_state !== "Start" ? "state intro hide" : "state intro show";
-        var waiting = this.state.game_state !== "Waiting" ? "state " + this.state.difficulty + " hide" : "state" + this.state.difficulty + " show";
+        var waiting = this.state.game_state !== "Waiting" ? "state " + this.state.difficulty + " hide" : "state " + this.state.difficulty + " show";
         var end_success = this.state.game_state !== "End_success" ? "state success hide" : "state success show";
         var end_failing = this.state.game_state !== "End_failure" ? "state failure hide" : "state failure show";
 
