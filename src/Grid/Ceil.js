@@ -9,6 +9,7 @@ class Ceil extends Component {
         super(props);
 
         this.resetCeil = this.resetCeil.bind(this);
+        //this.animate = this.animate().bind(this);
 
         //because we are changing the classes within this component, we set a state for the ceil, which can go between
         //preparing, animate and ready
@@ -21,7 +22,9 @@ class Ceil extends Component {
      * Once the component mounts, call the animation method
      */
     componentDidMount() {
-        this.startAnimation();
+        //StateStore.on("animate");
+        this.startAnimation(this.props.triggers);
+        console.log("Mount", this.props.state, this.props.id, this.props.triggers);
     }
 
     resetCeil() {
@@ -34,7 +37,6 @@ class Ceil extends Component {
      * @param event
      */
     gridClick(event) {
-        //@todo fix the animation effect
         console.log("On click", this.props.id);
         if(StateStore.animationComplete()) {
             StateActions.onClick(this.props.id);
@@ -49,9 +51,11 @@ class Ceil extends Component {
      * using the sequence. All this function does, is changes the class on each of the ceils. CSS transitions will take
      * care of the rest
      */
-    startAnimation() {
-        const execute = (this.props.sequence * StateStore.getDifficult()) + 500;
-        setTimeout(() => this.animate(), execute);
+    startAnimation(triggers) {
+        triggers.forEach((execute) => {
+            console.log("Animating", execute);
+            setTimeout(() => this.animate(), execute);
+        });
     }
 
     /**
@@ -59,14 +63,14 @@ class Ceil extends Component {
      * state to ready, ready means that the ceil can be clicked
      */
     animate() {
-        this.setState({state: "animate"});
+        this.setState({state: "progress"});
         setTimeout(() => {
             this.setState({state: "ready"});
             //no need to increment the count when clicking
             if(!StateStore.animationComplete()) {
                 StateStore.setAnimationCount();
             }
-        }, 1000);
+        }, StateStore.getDifficult());
     }
 
     /**
@@ -78,7 +82,6 @@ class Ceil extends Component {
 
         return (
             <li onClick={this.gridClick.bind(this)} className={className}>
-                Ceil
             </li>
         );
     }

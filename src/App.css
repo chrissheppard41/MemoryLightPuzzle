@@ -23,12 +23,25 @@
   to { transform: rotate(360deg); }
 }
 
+ul {
+  width: 330px;
+  padding: 0;
+  margin: 0 auto;
+}
 ul li {
     background-color: antiquewhite;
 }
 
 .state {
   transition: opacity 500ms ease-in;
+  clear: both;
+}
+
+.state:after {
+  content: " "; /* Older browser do not support empty content */
+  visibility: hidden;
+  display: block;
+  height: 0;
   clear: both;
 }
 

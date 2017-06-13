@@ -12,6 +12,7 @@ class Grid extends Component {
         //bind the get ceils state to this component so that when called it understands to execute the function
         this.clearCeils = this.clearCeils.bind(this);
 
+        //bind the games state per sections and what to display
         this.gameState = this.gameState.bind(this);
 
         //set the default state
@@ -42,7 +43,6 @@ class Grid extends Component {
         });
     }
 
-
     clearCeils() {
         this.setState({
             Ceils: []
@@ -53,6 +53,7 @@ class Grid extends Component {
      * Start the game mechanics
      */
     startGame() {
+        //@todo: have this number set to the difficulty, easy = 3, normal = 6, hard = 9
         StateActions.onStart(5, 5, this.state.difficulty);
         StateStore.setGameState(1);
         this.gameState();
@@ -72,8 +73,6 @@ class Grid extends Component {
     }
 
     gameState() {
-        console.log(StateStore.getGameState());
-
         this.setState({
             game_state: StateStore.getGameState()
         });
@@ -94,7 +93,7 @@ class Grid extends Component {
         const { Ceils } = this.state;
 
         var items = Ceils.map((item, index) =>
-            <Ceil key={item.id} colour={item.colour} id={item.id} sequence={item.sequence} state={item.state} />
+            <Ceil key={item.id} id={item.id} colour={item.colour} triggers={item.triggers} state={item.state} />
         );
 
         var intro = this.state.game_state !== "Start" ? "state intro hide" : "state intro show";

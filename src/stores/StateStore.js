@@ -39,13 +39,13 @@ class StateStore extends EventEmitter {
     setDifficulty(difficulty) {
         switch(difficulty) {
             case "easy":
-                this.difficulty = 1300;
+                this.difficulty = 1400;
                 break;
             case "hard":
-                this.difficulty = 700;
+                this.difficulty = 800;
                 break;
             default:
-                this.difficulty = 1000;
+                this.difficulty = 1100;
                 break;
         }
     }
@@ -73,24 +73,56 @@ class StateStore extends EventEmitter {
         const colours = ["red", "green", "blue", "purple", "cyan", "yellow", "magenta", "orange", "chartreuse"];
 
         this.ceils = [];
-        for (var i = 0, j = ceils; i < j; i++) {
+        for (let i = 0, j = ceils; i < j; i++) {
             if(i >= ceils) break;
-            this.ceils.push({id: i, colour: colours[i], sequence: this.sequence[i], state: "preparing"});
+            this.ceils.push({id: i, colour: colours[i], triggers: this.sequence[i], state: "preparing"});
         }
+    }
+
+    getRandomSequence(ceils) {
+        //if the ceils passed in is somehow greater than 9, set to 9
+        if(ceils > 9) ceils = 9;
+
+        let min = Math.ceil(0);
+        let max = Math.floor(ceils);
+
+        let arr = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+            7: [],
+            8: [],
+            9: []
+        };
+
+        for (let i = 0, j = ceils; i < j; i++) {
+            //on the randomly generated number, add it in as the index, then use the for loop index to get it's time of
+            //execution
+            let random = Math.floor(Math.random() * (max - min)) + min;
+            arr[random].push((i * this.getDifficult()) + 500);
+
+            //arr.push(Math.floor(Math.random() * (max - min)) + min);
+        }
+        return arr;
     }
 
     startGame(loops, ceils) {
         console.log("Starting the game", "loops", loops, "ceils", ceils);
 
-        this.sequence = [0,1,2,3,4];
+        this.sequence = this.getRandomSequence(ceils);
 
         this.setLoops(loops);
         this.setCeils(ceils);
 
-        console.log("--->", this.getCeils());
-
-        //when you hit this function, tell the core that you are making a change
         this.emit("ceils_updated");
+
+        console.log("--->", this.getCeils());
+        //console.log("--->", this.sequence);
+
     }
 
     recordClick(ceil) {
@@ -105,7 +137,7 @@ class StateStore extends EventEmitter {
      * end game
      */
     gameResults() {
-        var sequences_match = this.sequence.every((v,i)=> v === this.user_sequence[i]);
+        let sequences_match = this.sequence.every((v,i)=> v === this.user_sequence[i]);
 
         console.log("Sequence matches", sequences_match);
 

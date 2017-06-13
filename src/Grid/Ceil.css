@@ -21,6 +21,18 @@ li.purple {
 li.cyan {
     background-color: cyan;
 }
+li.yellow {
+    background-color: yellow;
+}
+li.magenta {
+    background-color: magenta;
+}
+li.orange {
+    background-color: orange;
+}
+li.chartreuse {
+    background-color: chartreuse;
+}
 
 ul.easy li {
     transition: opacity 1.3s ease-in-out;
@@ -32,8 +44,8 @@ ul.hard li {
     transition: opacity 0.7s ease-in-out;
 }
 
-li.animate {
-    opacity: .5;
+li.progress {
+    opacity: .1;
 }
 
 li.ready {

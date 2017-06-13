@@ -19,18 +19,12 @@ A simple application to test your memory. Watch the grid, the colours will rando
 
 
 ## Todo (In no particular order)
-- Add in a ajax function to send and retrieve colour patterns
-- Once you click the start game button, trigger the animations
-- When a user clicks a ceil, animate it
 - Give the user the ability to select a difficulty, that difficulty:
  + Easy, slow transitions, with 4 sequences
  + Normal, default transition speeds, with 6 sequences
  + Hard, faster transitions, with 9 sequences
-- When a user does all his clicks then unbind the clicks, go to the results screen
-- Reset the game with a button
 - Unit tests
-- Some basic backend to generate some patterns
-- ... More to come
+- More to dos throughout the code
 
 ### React Jargan
 
