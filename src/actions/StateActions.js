@@ -1,14 +1,18 @@
 import dispatcher from "../dispatcher";
 
-export function onStart(loops, ceils, difficulty) {
+/**
+ * On game start dispatch this action
+ */
+export function onStart() {
     dispatcher.dispatch({
-        type: "START_ACTION",
-        loops: loops,
-        ceils: ceils,
-        difficulty: difficulty
+        type: "START_ACTION"
     });
 }
 
+/**
+ * On the click of a cei, dispatch this action
+ * @param ceil
+ */
 export function onClick(ceil) {
     dispatcher.dispatch({
         type: "CLICK_ACTION",

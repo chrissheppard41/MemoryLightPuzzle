@@ -27,6 +27,9 @@ class Ceil extends Component {
         console.log("Mount", this.props.state, this.props.id, this.props.triggers);
     }
 
+    /**
+     * reset the ceil class name in the state
+     */
     resetCeil() {
         this.setState({state: "preparing"});
     }
@@ -39,8 +42,7 @@ class Ceil extends Component {
     gridClick(event) {
         console.log("On click", this.props.id);
         if(StateStore.animationComplete()) {
-            StateActions.onClick(this.props.id);
-            this.animate();
+            this.animate(() => { StateActions.onClick(this.props.id); });
         } else {
             console.log("Animation is not yet done yet!");
         }
@@ -62,15 +64,18 @@ class Ceil extends Component {
      * The animation class sets the initial state when executed to animate, after X amount of milliseconds change the
      * state to ready, ready means that the ceil can be clicked
      */
-    animate() {
+    animate(after_state) {
         this.setState({state: "progress"});
         setTimeout(() => {
             this.setState({state: "ready"});
+
+            //any extra callback functionality after setting the state to ready
+            if(typeof after_state === "function") after_state();
             //no need to increment the count when clicking
             if(!StateStore.animationComplete()) {
                 StateStore.setAnimationCount();
             }
-        }, StateStore.getDifficult());
+        }, (StateStore.getDifficult() / 2));
     }
 
     /**

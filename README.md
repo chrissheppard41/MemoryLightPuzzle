@@ -19,12 +19,7 @@ A simple application to test your memory. Watch the grid, the colours will rando
 
 
 ## Todo (In no particular order)
-- Give the user the ability to select a difficulty, that difficulty:
- + Easy, slow transitions, with 4 sequences
- + Normal, default transition speeds, with 6 sequences
- + Hard, faster transitions, with 9 sequences
 - Unit tests
-- More to dos throughout the code
 
 ### React Jargan
 

@@ -19,54 +19,94 @@ class StateStore extends EventEmitter {
      * reset the game
      */
     reset() {
+        this.ceil_count = 6;
         this.ceils = [];
         this.animation_count = 0;
         this.sequence = [];
+        this.trigger = {};
         this.user_sequence = [];
         this.difficulty = 1000;
+        this.loops = 5;
         this.gameState = this.game_can_be_in_these_states[0];
 
         this.emit("game_state");
     }
 
+    /**
+     * the current game state
+     * @returns {string|*|string}
+     */
     getGameState() {
         return this.gameState;
     }
+
+    /**
+     * Sets the state of the game which tells the engine what to display
+     * @param state
+     */
     setGameState(state) {
         this.gameState = this.game_can_be_in_these_states[state];
     }
 
+    /**
+     * Set the difficulty of the game
+     * @param difficulty string of the difficulty
+     */
     setDifficulty(difficulty) {
         switch(difficulty) {
             case "easy":
-                this.difficulty = 1400;
+                this.difficulty = 1300;
+                this.loops = 4;
+                this.ceil_count = 3;
                 break;
             case "hard":
-                this.difficulty = 800;
+                this.difficulty = 700;
+                this.loops = 6;
+                this.ceil_count = 9;
                 break;
             default:
-                this.difficulty = 1100;
+                this.difficulty = 1000;
+                this.loops = 5;
+                this.ceil_count = 6;
                 break;
         }
     }
+
+    /**
+     * get the difficulty
+     * @returns {number}
+     */
     getDifficult() {
         return this.difficulty;
     }
 
-    setLoops(loop) {
-        this.loops = loop;
-    }
+    /**
+     * sets the ceils and all the data related to the state to be based into the Grid render
+     * @returns {Array}
+     */
     getCeils() {
         return this.ceils;
     }
 
+    /**
+     * Is the animation complete so enable clicks
+     * @returns {boolean}
+     */
     animationComplete() {
-        return this.animation_count >= this.sequence.length;
+        return this.animation_count >= (this.loops - 1);
     }
+
+    /**
+     * set the animation count
+     */
     setAnimationCount() {
         this.animation_count++;
     }
 
+    /**
+     * Generates the ceils to be passed into the Component Grid render to generate the child ceils
+     * @param ceils
+     */
     setCeils(ceils) {
         //if the ceils passed in is somehow greater than 9, set to 9
         if(ceils > 9) ceils = 9;
@@ -75,11 +115,16 @@ class StateStore extends EventEmitter {
         this.ceils = [];
         for (let i = 0, j = ceils; i < j; i++) {
             if(i >= ceils) break;
-            this.ceils.push({id: i, colour: colours[i], triggers: this.sequence[i], state: "preparing"});
+            this.ceils.push({id: i, colour: colours[i], triggers: this.trigger[i], state: "preparing"});
         }
     }
 
-    getRandomSequence(ceils) {
+    /**
+     * The main functionality to set the the random sequence and when it should be triggered
+     * @param ceils the ceils for the game, based on difficulty
+     * @param loops the a mount of loops to do, based on difficulty
+     */
+    setRandomSequence(ceils, loops) {
         //if the ceils passed in is somehow greater than 9, set to 9
         if(ceils > 9) ceils = 9;
 
@@ -98,37 +143,47 @@ class StateStore extends EventEmitter {
             8: [],
             9: []
         };
+        let sequence = [];
 
-        for (let i = 0, j = ceils; i < j; i++) {
+        for (let i = 0, j = loops; i < j; i++) {
             //on the randomly generated number, add it in as the index, then use the for loop index to get it's time of
             //execution
             let random = Math.floor(Math.random() * (max - min)) + min;
             arr[random].push((i * this.getDifficult()) + 500);
-
-            //arr.push(Math.floor(Math.random() * (max - min)) + min);
+            sequence.push(random);
         }
-        return arr;
+
+        //set the triggers and the generated sequence
+        this.trigger = arr;
+        this.sequence = sequence;
     }
 
-    startGame(loops, ceils) {
-        console.log("Starting the game", "loops", loops, "ceils", ceils);
+    /**
+     * the main function to create the ceils, the loops, the sequence and triggers
+     */
+    startGame() {
+        console.log("Starting the game", "loops", this.loops, "ceils count", this.ceil_count);
 
-        this.sequence = this.getRandomSequence(ceils);
+        this.setRandomSequence(this.ceil_count, this.loops);
 
-        this.setLoops(loops);
-        this.setCeils(ceils);
+        //this.setLoops(loops);
+        this.setCeils(this.ceil_count);
 
         this.emit("ceils_updated");
 
         console.log("--->", this.getCeils());
-        //console.log("--->", this.sequence);
+        console.log("--->", this.sequence);
 
     }
 
+    /**
+     * on click record the ceil that was clicked
+     * @param ceil int, position of the ceil clicked
+     */
     recordClick(ceil) {
         this.user_sequence.push(ceil);
 
-        if(this.sequence.length === this.user_sequence.length) {
+        if(this.loops === this.user_sequence.length) {
             this.gameResults();
         }
     }
@@ -155,10 +210,6 @@ class StateStore extends EventEmitter {
         } else {
             this.setGameState(3);
             console.log("Failed but done");
-
-            //reset animation by clearing the ceils, then adding them back in
-            //this.emit("ceils_clear");
-            //this.emit("ceils_updated");
         }
 
         this.emit("ceils_clear");
@@ -167,12 +218,16 @@ class StateStore extends EventEmitter {
         this.emit("game_state");
     }
 
+    /**
+     * This states actions
+     * @param action the variables set in the State action
+     */
     handleStateActions(action) {
         console.log("State Action", action);
 
         switch(action.type) {
             case "START_ACTION":
-                this.startGame(action.loops, action.ceils);
+                this.startGame();
                 break;
             case "CLICK_ACTION":
                 this.recordClick(action.ceil);

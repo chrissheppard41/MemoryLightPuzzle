@@ -35,13 +35,13 @@ li.chartreuse {
 }
 
 ul.easy li {
-    transition: opacity 1.3s ease-in-out;
+    transition: opacity 0.65s ease-in-out;
 }
 ul.normal li {
-    transition: opacity 1s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
 }
 ul.hard li {
-    transition: opacity 0.7s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
 }
 
 li.progress {
